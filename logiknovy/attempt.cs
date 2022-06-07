@@ -18,20 +18,39 @@ namespace logiknovy
         public List<bool> Evaluate(pin[] pattern)
         {
             List<bool> result = new List<bool>();
-            List<pin> patternCopy = pattern.ToList();
-            int i = 0;
-            while(i < patternCopy.Count)
+            bool[] flag = new bool[4];
+
+            for (int i = 0; i < pattern.Length; i++)
             {
-                if(Pins[i] == patternCopy[i])
+                if(pattern[i] == Pins[i])
                 {
+                    flag[i] = false;
                     result.Add(true);
-                    patternCopy.RemoveAt(i);
                 }
                 else
                 {
-                    i++;
+                    flag[i] = true;
+                }
+
+            }
+            for(int i = 0; i < flag.Length; i++)
+            {
+                if (flag[i])
+                {
+                    for(int j = 0; j < pattern.Length; j++)
+                    {
+                        if (flag[j])
+                        {
+                            if(Pins[i] == pattern[j])
+                            {
+                                result.Add(false);
+                                break;
+                            }
+                        }
+                    }
                 }
             }
+            
             return new List<bool>();
         }
     }
